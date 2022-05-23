@@ -1,0 +1,62 @@
+Why we use Virtual Environments ? 
+Lets assume you are working on 2 different types of virtual machine, one of the Django project is v1.0 and the other one is v2.0, also you are told not to update these Django website projects. So if you want to install and run Djangi version on your machine , you can install and activate only 1 version.
+So you can work only 1 Djang project on your machine.
+To solve such problems we could use one such method of Virtual Environments . So using VEMs(Virtual Environments), instead of installing one version of Django globally, we can install different versions suitable for each envs, So that we can work on both the projects on your single machine.
+
+Open command prompt of the new folder created and type : python -m venv myenv 
+in here -m modify the current folder with.
+venv is the virtual environment.
+myenv is the name of the virtual environement created.
+Once the command is executed a new folder is created with a virtual environment named myenv
+
+So whenever we are working with the Django project we need to activate this venv, and also install various pacakages and modules within this environment.
+
+To activate the Virtual environment, write venv's name , scripts, activate like : myenv\Scripts\activate
+
+To create the API end points we need to install one more module named Django rest framework.
+
+Now we need to create the Django project so, Type : django-admin startproject DjangoAPI . Once the command is executed we get a folder created with project name.
+
+Next is we need to check whether our created project runs properly or not, so type command : python manage.py runserver
+Insside the project folder , file named manage.py which is a command line utility that helps in interacting within our Django Project. 
+db.sqlite3 is the database file using to store the data.
+__init__.py is just an empty python file that tells python that this directory is to be considered a Python project or a Python module.
+settings.py is the file which consists of settings and configurations needed for this Django project.
+urls.py is the file which contains all the urls fro this Django project.
+asgi.py is the entry point of asgi compatible web servers to serve the project.
+wsgi.py is the entry point of wsgi compatible web servers to serve the project.
+
+Now coming to the Database Section, please install SQLiteStudio 3.3, Click on Database --> Add a Database --> Load the SQL file which is already present in the database. path : D:\Django Angular\DjangoAPI\db.sqlite3
+This makes it easier to see whats inside our database file.
+
+After that we need to enable the CORS(Cross Origin Resource Sharing) beacuse by default all django projects come with a security feature which blocks the API requests coming from different domains.This obviously is an essential feature because you don't want anyone to consume your API methods and access or modify your data. You need to have some kind of control to authorize only to specific domains or apps to consume your API end points. So for this we need to instal django cors header package using pip instal, after which we also need to add these in settings.py inside Installed_Apps = ['corsheaders'] and also inside MIDDLEWARE = ['corsheaders.middleware.CorsMiddleWare']
+
+We need to specify which domains should be whitelisted which should be allowed for API's like CORS_ORIGIN_ALLOW_ALL = True
+
+Now we can create our Application by typing command : python manage.py startapp EmployeeApp
+like this we can add multiple apps of different domains.
+
+After that we need to register our application in settings.py file , Code : 'EmployeeApp.apps.EmployeeappConfig',
+    'rest_framework' inside INSTALLED_APPS
+Now we need to create models for our app , for that go to models.py of our application, we basically need two models for our app.One model which helps us to store the Department data and the other one to store the employee data.
+
+Department models would have 2 fields : one field is auto increment in field, another one to store department name this is a char field with max length of 100 character.
+
+Employee model will have five fields : one to store the employee id which is an auto increment field, then we have employee name, next we have department name, next we have date of joining which is a date field and finally we have a field to store the uploaded image file name.
+
+Now we need to run a couple of commands to create these tables in the sqlite database file , the first command is python manage.py make migrations employee app.what this command does is it creates an intermediate file in the migrations folder which will have the details of what are the changes that will go to the database file. If things look fine, we need to run one more command to actually commit these changes to our database file python manage.py migrate employee app.
+
+Now let's create serializers for our models serializers basically help us in converting our complex types or model instances to native python data types that can then be rendered easily into json or xml or other content types they also help in deserialization which is nothing but converting the parsed data back to complex types add a new file with name serializer.py and import serializers from rest framework module also import our complex types or models. 
+
+Now we need to write serializer classes for both our models, we have now added the serializers needed for our app . Now let's write our api methods for department screen. We are importing csrf exempt decorator so that we can use it to allow other domains to easily access our api methods by other domains also called as jsonparser.
+
+To parse the incoming data into the data model let's import both the models and also the corresponding serializer classes. let's write our API methods for department screen as well the method will receive an optional id which we will be using in delete method to delete a record based on id. Also let's first write the get method which will simply return all the data from department table in json format. We are making use of serializer class to help convert it into json format. The parameter safe equals false is basically used to inform django that what we are trying to convert to json. format is actually a valid format to be converted and we are fine if there are any issues. next let's write the post method which will be used to insert new record into department table. first we need to parse it as json, and then use serializer to convert it into model type. 
+
+Finally we check if the model is valid if model is valid we save it into database and return a success message , if not return failure message. next let's complete the put method which will be used to update an existing record . First we need to capture the existing record in the database using the department id. next map it with new values using the serializer class , finally if model is valid we save it and return success message. if not send a failure message, finally let's complete the delete method. for the delete method we will be sending the department id in the url so we will make use of it to extract the
+record from database based on the past id and then delete it from database now. Also we should copy the url,  let's test the api methods in postman. Insert a record using post method. we need to add json input in the body the schema should match exactly as the column names our model. let's add one department with name it we see that it was added successfully we can run a select query to verify it in the sqlite studio let's add another department. we can also verify it by calling the get api method we can see we have two records now let's verify the put method by changing the name of second department. we see that put method also works as expected let's finally test the delete method. all the api methods for department screen works as expected.
+
+now let's write the api methods for employee screen since we have already written api methods for department screen we just reuse them let's make a copy of all the methods. now we just need to replace the variable names from department to employee , add the routing for our employee api methods , test the methods in postman we forgot to map the methods let's do it. the get method works as expected let's try post method. post method works as expected now let's use the put method and change the employee name. put method also works let's add one more employee using post method before using delete. finally let's test the delete method all the api methods works as expected.
+
+let's also create a navigation component and add the navigation menu, we will have three menus in navigation bar one for home one for department, we will have three menus in navigation bar one for home one for department. add our navigation component and other landing pages in the root component. import all those components here. we need to import couple of modules from react router dom to configure the routing settings. 
+
+we see that landing screen for employee details is working fine as expected now let's complete the add new employee. we need to declare departments array to show values in drop down we may need some variables to store profile picture details and photo paths. we see that update works as expected, With this we have completed all the basic functionalities of our employee management app.
