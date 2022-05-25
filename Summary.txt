@@ -23,8 +23,8 @@ db.sqlite3 is the database file using to store the data.
 __init__.py is just an empty python file that tells python that this directory is to be considered a Python project or a Python module.
 settings.py is the file which consists of settings and configurations needed for this Django project.
 urls.py is the file which contains all the urls fro this Django project.
-asgi.py is the entry point of asgi compatible web servers to serve the project.
-wsgi.py is the entry point of wsgi compatible web servers to serve the project.
+asgi.py is the entry point of asgi (Asynchronous Server Gateway Interface) compatible web servers to serve the project.
+wsgi.py is the entry point of wsgi (Web Server Gateway Interface) compatible web servers to serve the project.
 
 Now coming to the Database Section, please install SQLiteStudio 3.3, Click on Database --> Add a Database --> Load the SQL file which is already present in the database. path : D:\Django Angular\DjangoAPI\db.sqlite3
 This makes it easier to see whats inside our database file.
